@@ -49,11 +49,11 @@ public class SondageControllerTest {
     @AfterEach
     public void tearDown() {
         // Suppression du sondage créé pour les tests
-        sondageRepository.delete(sondage);
+        sondageRepository.deleteById(sondage.getId());
     }
 
     @Test
-    public void testGetAllSondages() {
+    public void testGetSondages() {
         ResponseEntity<List<Sondage>> responseEntity =
                 restTemplate.exchange("/sondages", HttpMethod.GET, null, new ParameterizedTypeReference<List<Sondage>>() {});
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -61,7 +61,7 @@ public class SondageControllerTest {
     }
 
     @Test
-    public void testGetSondageById() {
+    public void testGetSondage() {
         ResponseEntity<Sondage> responseEntity =
                 restTemplate.exchange("/sondages/" + sondage.getId(), HttpMethod.GET, null, Sondage.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -70,13 +70,13 @@ public class SondageControllerTest {
 
     @Test
     public void testCreateSondage() {
-        Sondage newSondage = new Sondage();
-        newSondage.setDescription("New description");
-        newSondage.setQuestion("New question");
-        newSondage.setCreatedDate(LocalDate.now());
-        newSondage.setClosingDate(LocalDate.now().plusDays(7));
-        newSondage.setCreatedBy("New user");
-        HttpEntity<Sondage> request = new HttpEntity<>(newSondage);
+
+        sondage.setDescription("New description");
+        sondage.setQuestion("New question");
+        sondage.setCreatedDate(LocalDate.now());
+        sondage.setClosingDate(LocalDate.now().plusDays(7));
+        sondage.setCreatedBy("New user");
+        HttpEntity<Sondage> request = new HttpEntity<>(sondage);
         ResponseEntity<Void> responseEntity = restTemplate.exchange("/sondages", HttpMethod.POST, request, Void.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }

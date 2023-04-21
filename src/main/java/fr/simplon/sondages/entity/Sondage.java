@@ -14,6 +14,17 @@ import java.time.LocalDate;
 @Entity
 public class Sondage {
 
+    public Sondage() {
+
+    }
+
+    public Sondage(String description, String question, String createdBy, LocalDate createdDate, LocalDate closingDate) {
+        this.description = description;
+        this.question = question;
+        this.createdBy = createdBy;
+        this.createdDate = createdDate;
+        this.closingDate = closingDate;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
